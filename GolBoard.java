@@ -1,4 +1,13 @@
+
+/**
+ * Eden Yemini
+ * Gilad Yehuda
+ */
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * GolBoard
@@ -10,6 +19,36 @@ public class GolBoard {
     public GolBoard(int x, int y) {
 
         board = new boolean[x][y];
+    }
+
+    public GolBoard(String filename) {
+
+        Scanner input = getFilScanner(filename);
+        String[] dims = input.nextLine().split(" ");
+        board = new boolean[Integer.parseInt(dims[0])][Integer.parseInt(dims[1])];
+
+        for (int i = 0; i < board.length; i++) {
+
+            String line = input.nextLine();
+
+            for (int j = 0; j < board[i].length; j++) {
+
+                char c = line.charAt(j);
+                board[i][j] = c == '*' ? true : false;
+            }
+        }
+    }
+
+    private Scanner getFilScanner(String filename) {
+
+        try {
+            return new Scanner(new FileReader(filename));
+        } catch (FileNotFoundException e) {
+
+            System.out.println("File not found!");
+        }
+
+        return null;
     }
 
     public void set(int x, int y, boolean status) {
